@@ -1,0 +1,68 @@
+import { ethers } from "ethers"
+// import BigNumber from 'bignumber.js'
+// import { DEFAULT_TOKEN_DECIMAL, DEFAULT_GAS_LIMIT } from 'config'
+import { getLaunchpadETHContract, getLaunchpadTokenContract } from "utils/contractHelpers"
+
+export const createLaunchpad = async (launchpad, values, addresses, strings, options, gasPrice, gasLimit?: bigint) => {
+  return launchpad.write.createNewLaunchpad([values, addresses, strings, options], {
+    // gasLimit: gasLimit || DEFAULT_GAS_LIMIT,
+    // gasPrice,
+  })
+}
+
+export const createFairLaunchpad = async (launchpad, values, addresses, strings, options, gasPrice, gasLimit?: bigint) => {
+  return launchpad.write.createNewFairLaunch([values, addresses, strings, options], {
+    // gasLimit: gasLimit || DEFAULT_GAS_LIMIT,
+    // gasPrice,
+  })
+}
+
+export const contributeForETH = async (launchpad, value) => {
+  return launchpad.write.contribute([], {
+    value: ethers.utils.parseEther(value),
+  })
+}
+
+export const contributeForToken = async (launchpad, value) => {
+  return launchpad.write.contribute([(value)])
+}
+
+export const disableWhitelist = async (launchpad) => {
+  return launchpad.write.disableWhiteList()
+}
+
+export const enableWhitelist = async (launchpad, value) => {
+  return launchpad.write.enableWhiteList(value)
+}
+
+export const addWhiteList = async (launchpad, value) => {
+  return launchpad.write.addWhiteList(value)
+}
+
+export const removeWhiteList = async (launchpad, value) => {
+  return launchpad.write.removeWhiteList(value)
+}
+
+export const cancel = async (launchpad) => {
+  return launchpad.write.cancel()
+}
+
+export const finalize = async (launchpad) => {
+  return launchpad.write.finalize()
+}
+
+export const updateInfo = async (launchpad, value) => {
+  return launchpad.write.updateInfo(value)
+}
+
+export const claim = async (launchpad) => {
+  return launchpad.write.claim()
+}
+
+export const withdraw = async (launchpad) => {
+  return launchpad.write.withdrawContribute()
+}
+
+export const emergencyWithdraw = async (launchpad) => {
+  return launchpad.write.emergencyWithdraw()
+}

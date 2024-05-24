@@ -1,0 +1,5 @@
+{
+  "main": "../../dist/connectors/bloom.js",
+  "module": "../../dist/connectors/bloom.mjs",
+  "types": "../../dist/connectors/bloom.d.ts"
+}
