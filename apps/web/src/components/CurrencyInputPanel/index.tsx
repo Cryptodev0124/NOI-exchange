@@ -41,6 +41,7 @@ const Container = styled(Box)`
   // background-color: ${({ theme }) => theme.colors.input};
   background: transparent;
   border-radius: 8px;
+  border: 1px solid #191919;
 `
 
 const LabelRow = styled.div`

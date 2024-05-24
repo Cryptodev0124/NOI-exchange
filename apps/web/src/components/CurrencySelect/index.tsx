@@ -17,9 +17,9 @@ const DropDownHeader = styled.div`
   justify-content: space-between;
   padding: 0px 16px;
   box-shadow: ${({ theme }) => theme.shadows.inset};
-  border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
+  border: 1px solid #191919;
   border-radius: 8px;
-  background: ${({ theme }) => theme.colors.input};
+  background: #333333;
   transition: border-radius 0.15s;
 `
 
@@ -27,7 +27,7 @@ const DropDownContainer = styled(Button)`
   cursor: pointer;
   width: 100%;
   position: relative;
-  background: ${({ theme }) => theme.colors.input};
+  background: #333333;
   border-radius: 8px;
   height: 40px;
   min-width: 136px;
