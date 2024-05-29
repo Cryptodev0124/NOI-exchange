@@ -28,7 +28,7 @@ export const SERVER_NODES = {
   [ChainId.ETHEREUM]: [
     getNodeRealUrl(ChainId.ETHEREUM, process.env.SERVER_NODE_REAL_API_ETH) || '',
     'https://ethereum.publicnode.com',
-    'https://eth.llamarpc.com',
+    'https://ethereum-rpc.publicnode.com',
     'https://cloudflare-eth.com',
   ],
   [ChainId.ARBITRUM]: ARBITRUM_NODES,
@@ -45,7 +45,7 @@ export const PUBLIC_NODES: Record<ChainId, string[] | readonly string[]> = {
   ].filter(notEmpty),
   [ChainId.ETHEREUM]: [
     getNodeRealUrl(ChainId.ETHEREUM, process.env.NEXT_PUBLIC_NODE_REAL_API_ETH) || '',
-    'https://eth.llamarpc.com',
+    'https://ethereum-rpc.publicnode.com',
     'https://cloudflare-eth.com',
   ].filter(Boolean),
   [ChainId.ARBITRUM]: ARBITRUM_NODES,

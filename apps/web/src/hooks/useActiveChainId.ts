@@ -49,7 +49,7 @@ export const useActiveChainId = () => {
 
   const { chainId: wagmiChainId } = useAccount()
 
-  const chainId = localChainId ?? wagmiChainId ?? (queryChainId >= 0 ? ChainId.ETHEREUM : undefined)
+  const chainId = localChainId ?? wagmiChainId ?? queryChainId >= 0 ? wagmiChainId : undefined
 
   const isNotMatched = useDeferredValue(wagmiChainId && localChainId && wagmiChainId !== localChainId)
 
@@ -57,9 +57,10 @@ export const useActiveChainId = () => {
     () => Boolean(((wagmiChainId && !isChainSupported(wagmiChainId)) ?? false) || isNotMatched),
     [wagmiChainId, isNotMatched],
   )
-
+  // console.log("testchainID", chainId && isChainSupported(chainId) ? ChainId.ETHEREUM : chainId)
   return {
     chainId: chainId && isChainSupported(chainId) ? chainId : ChainId.ETHEREUM,
+    currentChain: wagmiChainId,
     isWrongNetwork,
     isNotMatched,
   }

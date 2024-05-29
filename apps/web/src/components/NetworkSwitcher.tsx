@@ -127,7 +127,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
 
 export const NetworkSwitcher = () => {
   const { t } = useTranslation()
-  const { chainId, isWrongNetwork, isNotMatched } = useActiveChainId()
+  const { chainId, currentChain, isWrongNetwork, isNotMatched } = useActiveChainId()
   const { isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
   const router = useRouter()
   const { address: account } = useAccount()
@@ -203,6 +203,7 @@ export const NetworkSwitcher = () => {
         onDismiss={() => setOpen(false)}
         switchNetwork={switchNetworkAsync} 
         chainId={chainId} 
+        currentChain={currentChain}
       />
     </Box>
   )

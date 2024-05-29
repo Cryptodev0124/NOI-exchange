@@ -61,12 +61,13 @@ export const UserMenuItem = styled.button<UserMenuItemProps>`
 interface NetworkSwitchModalProps<T = unknown> extends ModalV2Props {
   switchNetwork: (x: number) => void;
   chainId: number;
+  currentChain: number | undefined;
 }
 
 // export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>)
 
 export function NetworkSwitchModal<T = unknown>(props: NetworkSwitchModalProps<T>) {
-  const { switchNetwork, chainId, ...rest } = props
+  const { switchNetwork, chainId, currentChain, ...rest } = props
   const { t } = useTranslation()
   // const [view, setView] = useState(initialView)
   // const { t } = useTranslation()
@@ -74,9 +75,8 @@ export function NetworkSwitchModal<T = unknown>(props: NetworkSwitchModalProps<T
   // const { data, isFetched } = useBalance({ address: account })
 
   // const handleClick = () => {chain.id !== chainId && switchNetwork(chain.id); props.onDismiss();}
-
   const handleWallet = (chain) => {
-    if (chain.id !== chainId)
+    if (chain.id !== currentChain)
       switchNetwork(chain.id)
     if (props.onDismiss)
       props.onDismiss()
@@ -125,7 +125,7 @@ export function NetworkSwitchModal<T = unknown>(props: NetworkSwitchModalProps<T
           </Text> */}
           <Flex>
           {chains
-        .filter((chain) => !chain.testnet || chain.id === chainId)
+        .filter((chain) => !chain.testnet || chain.id === currentChain)
         .map((chain) => (
           <UserMenuItem
             key={chain.id}
@@ -133,7 +133,7 @@ export function NetworkSwitchModal<T = unknown>(props: NetworkSwitchModalProps<T
             onClick={() => handleWallet(chain)}
           >
             <ChainLogo chainId={chain.id} width={36} height={36} />
-            <Text fontSize={16} color={chain.id === chainId ? 'secondary' : 'text'} bold={chain.id === chainId} mt="10px">
+            <Text fontSize={16} color={chain.id === currentChain ? 'secondary' : 'text'} bold={chain.id === currentChain} mt="10px">
               {chain.name}
             </Text>
           </UserMenuItem>

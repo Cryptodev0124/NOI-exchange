@@ -31,7 +31,7 @@ export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BSC }: { pageS
 
   const switchNetworkLocal = useSwitchNetworkLocal()
 
-  if (pathname === "/") return null
+  // if (pathname === "/") return null
 
   if (isPageNotSupported && isBNBOnlyPage) {
     switchNetworkLocal(ChainId.ETHEREUM)
