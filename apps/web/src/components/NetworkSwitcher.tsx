@@ -198,13 +198,13 @@ export const NetworkSwitcher = () => {
           )
         }
       </UserMenu>
-      <NetworkSwitchModal 
+      {/* <NetworkSwitchModal 
         isOpen={open}
         onDismiss={() => setOpen(false)}
         switchNetwork={switchNetworkAsync} 
         chainId={chainId} 
         currentChain={currentChain}
-      />
+      /> */}
     </Box>
   )
 }
