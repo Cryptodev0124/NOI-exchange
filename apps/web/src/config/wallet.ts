@@ -21,38 +21,39 @@ export enum ConnectorNames {
   Ledger = 'ledger',
   TrustWallet = 'trust',
   CyberWallet = 'cyberWallet',
-  Bloom = 'bloom'
+  Bloom = 'bloom',
+  OkxWallet = 'okxWallet'
 }
 
 const createQrCode =
   <config extends Config = Config, context = unknown>(chainId: number, connect: ConnectMutateAsync<config, context>) =>
-  async () => {
-    const wagmiConfig = createWagmiConfig()
-    const injectedConnector = wagmiConfig.connectors.find((connector) => connector.id === ConnectorNames.Injected)
-    const bloomConnector = wagmiConfig.connectors.find((connector) => connector.id === ConnectorNames.Bloom)
-    const _Connector = injectedConnector ?? bloomConnector
-    if (!_Connector) {
-      return ''
-    }
-    // HACK: utilizing event emitter from injected connector to notify wagmi of the connect events
-    const connector = {
-      ...walletConnectNoQrCodeConnector({
-        chains: chains as [Chain, ...Chain[]],
-        emitter: _Connector?.emitter,
-      }),
-      emitter: _Connector.emitter,
-      uid: _Connector.uid,
-    }
+    async () => {
+      const wagmiConfig = createWagmiConfig()
+      const injectedConnector = wagmiConfig.connectors.find((connector) => connector.id === ConnectorNames.Injected)
+      const bloomConnector = wagmiConfig.connectors.find((connector) => connector.id === ConnectorNames.Bloom)
+      const _Connector = injectedConnector ?? bloomConnector
+      if (!_Connector) {
+        return ''
+      }
+      // HACK: utilizing event emitter from injected connector to notify wagmi of the connect events
+      const connector = {
+        ...walletConnectNoQrCodeConnector({
+          chains: chains as [Chain, ...Chain[]],
+          emitter: _Connector?.emitter,
+        }),
+        emitter: _Connector.emitter,
+        uid: _Connector.uid,
+      }
 
-    const provider = await connector.getProvider()
+      const provider = await connector.getProvider()
 
-    return new Promise<string>((resolve) => {
-      provider.on('display_uri', (uri) => {
-        resolve(uri)
+      return new Promise<string>((resolve) => {
+        provider.on('display_uri', (uri) => {
+          resolve(uri)
+        })
+        connect({ connector, chainId })
       })
-      connect({ connector, chainId })
-    })
-  }
+    }
 
 const isMetamaskInstalled = () => {
   if (typeof window === 'undefined') {
@@ -83,6 +84,28 @@ const walletsConfig = <config extends Config = Config, context = unknown>({
 }): WalletConfigV2<ConnectorNames>[] => {
   const qrCode = createQrCode(chainId, connect)
   return [
+    // {
+    //   id: 'okxWallet',
+    //   title: 'OkxWallet',
+    //   icon: `/images/okxwallet.png`,
+    //   connectorId: ConnectorNames.OkxWallet,
+    //   get installed() {
+    //     if (typeof window?.okxwallet !== 'undefined') {
+    //       console.log('OKX is installed!');
+    //       // try{
+    //       //   window?.okxwallet.request({ method: 'eth_requestAccounts' });
+    //       // }catch(error){
+    //       //   console.log(error);
+    //       // }
+    //       return true;
+    //     }
+    //     return false;
+    //   },
+    //   // isNotExtension: true,
+    //   // guide: {
+    //   //   desktop: 'https://docs.cyber.co/sdk/cyber-account#supported-chains',
+    //   // },
+    // },
     {
       id: 'metamask',
       title: 'Metamask',
@@ -258,6 +281,7 @@ const walletsConfig = <config extends Config = Config, context = unknown>({
         desktop: 'https://docs.cyber.co/sdk/cyber-account#supported-chains',
       },
     },
+
     // {
     //   id: 'bloom',
     //   title: 'Bloom',
@@ -282,15 +306,15 @@ export const createWallets = <config extends Config = Config, context = unknown>
   return hasInjected && config.some((c) => c.installed && c.connectorId === ConnectorNames.Injected)
     ? config // add injected icon if none of injected type wallets installed
     : [
-        ...config,
-        // {
-        //   id: 'injected',
-        //   title: 'Injected',
-        //   icon: WalletFilledIcon,
-        //   connectorId: ConnectorNames.Injected,
-        //   installed: typeof window !== 'undefined' && Boolean(window.ethereum),
-        // },
-      ]
+      ...config,
+      // {
+      //   id: 'injected',
+      //   title: 'Injected',
+      //   icon: WalletFilledIcon,
+      //   connectorId: ConnectorNames.Injected,
+      //   installed: typeof window !== 'undefined' && Boolean(window.ethereum),
+      // },
+    ]
 }
 
 const docLangCodeMapping: Record<string, string> = {
